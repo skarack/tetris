@@ -1,24 +1,46 @@
-﻿// See https://aka.ms/new-console-template for more information
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-
-using var game = new Tetris(800, 600, "Tetris");
-game.Run();
-
-public class Tetris : GameWindow
+﻿var shape = new Shape(10, 10);
+for (int i = 0; i <= 10; i++)
 {
-    public Tetris(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title })
-    { 
+    Console.Clear();
+    DrawTitle();
+    shape.Draw();
+    shape.Update();
+    Thread.Sleep(700);
+}
+
+void DrawTitle()
+{
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    var title = "Tetris";
+    Console.SetCursorPosition(Console.WindowWidth/2-title.Count()/2, Console.CursorTop);
+    Console.WriteLine(title);
+    Console.ResetColor();
+}
+
+class Shape
+{
+    private int x;
+    private int y;
+
+    public Shape(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
     }
 
-    protected override void OnUpdateFrame(FrameEventArgs e)
+    public void Update()
     {
-        if (KeyboardState.IsKeyDown(Keys.Escape))
-        {
-            Close();
-        }
+        this.y += 1;
+    }
 
-        base.OnUpdateFrame(e);
+    public void Draw()
+    {
+        Console.SetCursorPosition(this.x, this.y);
+        Console.WriteLine("*");
+        Console.SetCursorPosition(this.x, this.y+1);
+        Console.WriteLine("**");
+        Console.SetCursorPosition(this.x, this.y+2);
+        Console.WriteLine(" *");
     }
 }
+
