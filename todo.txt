@@ -1,0 +1,7 @@
+Implement multiple shapes
+Support shape rotation
+Draw playboard
+Keep track of score
+Random next shape
+Detect shape collision
+Manage delete row when full

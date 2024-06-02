@@ -1,17 +1,21 @@
-﻿var shape = new Shape(10, 10);
-for (int i = 0; i <= 10; i++)
+﻿var title = "Tetris";
+Console.Title = title;
+
+var shape = new Shape(10, 10);
+for (int i = 0; i < 10; i++)
 {
     Console.Clear();
-    DrawTitle();
+    DrawTitle(title);
     shape.Draw();
     shape.Update();
     Thread.Sleep(700);
 }
 
-void DrawTitle()
+Console.Clear();
+
+void DrawTitle(string title)
 {
     Console.ForegroundColor = ConsoleColor.Yellow;
-    var title = "Tetris";
     Console.SetCursorPosition(Console.WindowWidth/2-title.Count()/2, Console.CursorTop);
     Console.WriteLine(title);
     Console.ResetColor();
@@ -43,4 +47,3 @@ class Shape
         Console.WriteLine(" *");
     }
 }
-
