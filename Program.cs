@@ -1,7 +1,7 @@
 ﻿var title = "Tetris";
 Console.Title = title;
 
-var shape = new Shape(10, 10);
+Block shape = new IBlock(10, 10);
 for (int i = 0; i < 10; i++)
 {
     Console.Clear();
@@ -21,12 +21,12 @@ void DrawTitle(string title)
     Console.ResetColor();
 }
 
-class Shape
+abstract class Block
 {
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
-    public Shape(int x, int y)
+    protected Block(int x, int y)
     {
         this.x = x;
         this.y = y;
@@ -37,13 +37,24 @@ class Shape
         this.y += 1;
     }
 
-    public void Draw()
+    abstract public void Draw();
+}
+
+class IBlock : Block
+{
+    public IBlock(int x, int y) : base(x, y)
+    {
+    }
+
+    public override void Draw()
     {
         Console.SetCursorPosition(this.x, this.y);
         Console.WriteLine("*");
-        Console.SetCursorPosition(this.x, this.y+1);
-        Console.WriteLine("**");
-        Console.SetCursorPosition(this.x, this.y+2);
-        Console.WriteLine(" *");
+        Console.SetCursorPosition(this.x, this.y + 1);
+        Console.WriteLine("*");
+        Console.SetCursorPosition(this.x, this.y + 2);
+        Console.WriteLine("*");
+        Console.SetCursorPosition(this.x, this.y + 3);
+        Console.WriteLine("*");
     }
 }
