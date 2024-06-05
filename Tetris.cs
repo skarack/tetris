@@ -12,11 +12,18 @@ public class Tetris
     const int SCORE_POS_Y = 15;
     const string TITLE = "Tetris";
 
+    private int current_block_x;
+    private int current_block_y;
+
+    private Block currentBlock;
     private Block nextBlock;
     private int score;
 
     public Tetris()
     {
+        this.currentBlock = new IBlock();
+        this.current_block_x = GAME_WIDTH / 2;
+        this.current_block_y = Console.WindowTop + 3;
         this.nextBlock = new IBlock();
     }
 
@@ -26,12 +33,21 @@ public class Tetris
         {
             Console.Clear();
 
-            DrawTitle();
-            DrawPlayfield();
-            DrawScore();
-            DrawNextBlock();
-            Thread.Sleep(1000);
+            this.DrawTitle();
+            this.DrawPlayfield();
+            this.DrawScore();
+            this.DrawNextBlock();
+            this.DrawCurrentBlock();
+            this.ProcessInput();
+            this.UpdateGame();
+            Thread.Sleep(60);
         }
+    }
+
+    private void DrawCurrentBlock()
+    {
+        Console.SetCursorPosition(this.current_block_x, this.current_block_y);
+        this.nextBlock.Draw(this.current_block_x, current_block_y);
     }
 
     private void DrawScore()
@@ -79,5 +95,34 @@ public class Tetris
         Console.SetCursorPosition(GAME_WIDTH/2-TITLE.Count()/2, Console.CursorTop);
         Console.WriteLine(TITLE);
         Console.ResetColor();
+    }
+
+    private void ProcessInput()
+    {
+        if (!Console.KeyAvailable)
+        {
+            return;
+        }
+
+        var key = Console.ReadKey();
+        switch(key.Key)
+        {
+            case ConsoleKey.LeftArrow: 
+                if (this.current_block_x > 4)
+                {
+                    this.current_block_x -= 1;
+                }
+                break;
+            case ConsoleKey.RightArrow:
+                if (this.current_block_x < PLAYFIELD_WIDTH + 3)
+                {
+                    this.current_block_x += 1;
+                }
+                break;
+        }
+    }
+
+    private void UpdateGame()
+    {
     }
 }
