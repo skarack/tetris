@@ -7,7 +7,14 @@ class OBlock : Block
         this.Vertices = [(0, 0), (1, 0), (0, 1), (1, 1)];
     }
 
-    public override int Width => 2;
+    public int Width => 2;
 
-    public override int Height => 2;
+    public int Height => 2;
+
+    public List<(int, int)> Vertices { get; }
+
+    public void Rotate()
+    {
+        throw new NotImplementedException();
+    }
 }

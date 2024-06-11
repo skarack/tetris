@@ -1,13 +1,13 @@
 namespace tetris.blocks;
 
-abstract public class Block
+public interface Block
 {
-    public List<(int, int)> Vertices { get; protected set; } = [];
+    List<(int, int)> Vertices { get; }
 
-    public abstract int Width { get; }
-    public abstract int Height { get; }
+    int Width { get; }
+    int Height { get; }
 
-    public void Draw(int x, int y)
+    void Draw(int x, int y)
     {
         foreach ((int x, int y) vertex in this.Vertices)
         {
@@ -15,5 +15,5 @@ abstract public class Block
         }
     }
 
-    public abstract void Rotate();
+    void Rotate();
 }

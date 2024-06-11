@@ -27,13 +27,14 @@ public class Tetris
 
     private Block GenerateNewBlock() => this.rdn.Next(7) switch
     {
-        0 => new IBlock(),
-        1 => new SBlock(),
-        2 => new LBlock(),
-        3 => new JBlock(),
-        4 => new OBlock(),
-        5 => new ZBlock(),
-        6 => new TBlock(),
-        _ => new SBlock()
+        //0 => new IBlock(),
+        //1 => new SBlock(),
+        //2 => new LBlock(),
+        //3 => new JBlock(),
+        //4 => new OBlock(),
+        //5 => new ZBlock(),
+        //6 => new TBlock(),
+        //_ => new SBlock()
+        _ => new TBlock()
     };
 }
