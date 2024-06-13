@@ -4,18 +4,7 @@ class TBlock : Block
 {
     public TBlock()
     {
-        //this.Vertices = [(0, 0), (1, 0), (2, 0), (1, 1)];
-        this.Vertices = [(-1, 0), (0, 0), (1, 0), (0, 1)];
-    }
-
-    public int Width => 3;
-
-    public int Height => 2;
-
-    public List<(int, int)> Vertices { get; }
-
-    public void Rotate()
-    {
-        throw new NotImplementedException();
+        this.Representations.Enqueue(new ([(0, 0), (1, 0), (2, 0), (1, 1)], 3, 2));
+        this.Representations.Enqueue(new ([(0, 1), (1, 1), (2, 1), (1, 0)], 3, 2));
     }
 }

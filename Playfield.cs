@@ -70,7 +70,7 @@ public class Playfield
             return;
         }
 
-        var block_vertices = this.current_block.Vertices;
+        var block_vertices = this.current_block.CurrentRepresentation.Vertices;
         foreach ((int x, int y) vertex in block_vertices)
         {
             var row = (this.block_position_y + vertex.y) - this.position_y;
@@ -86,7 +86,7 @@ public class Playfield
             return false;
         }
 
-        var block_vertices = this.current_block.Vertices;
+        var block_vertices = this.current_block.CurrentRepresentation.Vertices;
         foreach ((int x, int y) vertex in block_vertices)
         {
             var row = (y + vertex.y) - this.position_y;
@@ -113,7 +113,7 @@ public class Playfield
             return;
         }
 
-        if (this.block_position_y + this.current_block.Height < this.position_y + PLAYFIELD_HEIGHT)
+        if (this.block_position_y + this.current_block.CurrentRepresentation.Height < this.position_y + PLAYFIELD_HEIGHT)
         {
             var next_y_position = this.block_position_y + 1;
             if (!this.DetectCollision(this.block_position_x, next_y_position))
@@ -147,7 +147,7 @@ public class Playfield
                 }
                 break;
             case ConsoleKey.RightArrow:
-                if (this.block_position_x + this.current_block.Width < this.position_x + PLAYFIELD_WIDTH)
+                if (this.block_position_x + this.current_block.CurrentRepresentation.Width < this.position_x + PLAYFIELD_WIDTH)
                 {
                     this.block_position_x += 1;
                 }
@@ -166,7 +166,7 @@ public class Playfield
         }
 
         this.current_block = this.OnNewBlockNeeded();
-        this.block_position_x = this.position_x + (PLAYFIELD_WIDTH/2 - (int)Math.Ceiling(this.current_block.Width/2.0));
+        this.block_position_x = this.position_x + (PLAYFIELD_WIDTH/2 - (int)Math.Ceiling(this.current_block.CurrentRepresentation.Width/2.0));
         this.block_position_y = this.position_y;
         this.last_update_tick = DateTime.Now;
     }
