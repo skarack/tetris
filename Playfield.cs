@@ -126,8 +126,86 @@ public class Playfield
         }
 
         this.ConvertBlockToMatrix();
+        this.RemoveFullLines();
 
         this.RequestNewBlock();
+    }
+
+    private void RemoveFullLines()
+    {
+        int line_reset_count = 0;
+
+        for (var row = PLAYFIELD_HEIGHT - 1; row >= 0 ; row--)
+        {
+            if (!this.IsLineFull(row))
+            {
+                continue;
+            }
+
+            this.ResetLine(row);
+            line_reset_count++;
+        }
+
+        if (line_reset_count > 0)
+        {
+            this.OnRowsDeleted?.Invoke(line_reset_count);
+            this.DropLines();
+        }
+    }
+
+    private void CopyLine(int src, int dst)
+    {
+        for (var col = 0; col < PLAYFIELD_WIDTH; col++)
+        {
+            this.fieldMatrix[dst, col] = this.fieldMatrix[src, col];
+        }
+    }
+
+    private void DropLines()
+    {
+        for (var row = PLAYFIELD_HEIGHT - 2; row >= 0 ; row--)
+        {
+            int dst_row = row;
+            int next_row = row + 1;
+
+            while (next_row != PLAYFIELD_HEIGHT && this.IsLineEmpty(next_row))
+            {
+                dst_row = next_row;
+                next_row++;
+            }
+
+            if (row != dst_row)
+            {
+                this.CopyLine(row, dst_row);
+                this.ResetLine(row);
+            }
+        }
+    }
+
+    private bool IsLineEmpty(int row)
+    {
+        for (var col = 0; col < PLAYFIELD_WIDTH; col++)
+        {
+            if (this.fieldMatrix[row, col])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool IsLineFull(int row)
+    {
+        for (var col = 0; col < PLAYFIELD_WIDTH; col++)
+        {
+            if (!this.fieldMatrix[row, col])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void ProcessInput()
@@ -143,13 +221,21 @@ public class Playfield
             case ConsoleKey.LeftArrow: 
                 if (this.block_position_x > this.position_x)
                 {
-                    this.block_position_x -= 1;
+                    var next_x_position = this.block_position_x - 1;
+                    if (!this.DetectCollision(next_x_position, this.block_position_y))
+                    {
+                        this.block_position_x -= 1;
+                    }
                 }
                 break;
             case ConsoleKey.RightArrow:
                 if (this.block_position_x + this.current_block.CurrentRepresentation.Width < this.position_x + PLAYFIELD_WIDTH)
                 {
-                    this.block_position_x += 1;
+                    var next_x_position = this.block_position_x + 1;
+                    if (!this.DetectCollision(next_x_position, this.block_position_y))
+                    {
+                        this.block_position_x += 1;
+                    }
                 }
                 break;
             case ConsoleKey.UpArrow:
@@ -169,5 +255,13 @@ public class Playfield
         this.block_position_x = this.position_x + (PLAYFIELD_WIDTH/2 - (int)Math.Ceiling(this.current_block.CurrentRepresentation.Width/2.0));
         this.block_position_y = this.position_y;
         this.last_update_tick = DateTime.Now;
+    }
+
+    private void ResetLine(int row)
+    {
+        for (var col = 0; col < PLAYFIELD_WIDTH; col++)
+        {
+            this.fieldMatrix[row, col] = false;
+        }
     }
 }

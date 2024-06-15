@@ -16,6 +16,7 @@ public class Tetris
     {
         var playfield = new Playfield(5, 5);
         playfield.OnNewBlockNeeded = () => this.GenerateNewBlock();
+        playfield.OnRowsDeleted = (row_count) => { Console.WriteLine($"removed {row_count} lines"); };
 
         while(true)
         {
